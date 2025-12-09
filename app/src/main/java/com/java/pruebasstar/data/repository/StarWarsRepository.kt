@@ -13,7 +13,7 @@ class StarWarsRepository(private val api: ApiService) {
 
     suspend fun getPlanetName(url: String): String {
         val id = url.trimEnd('/').split("/").last()
-        return api.getPlanet(id).name
+        return api.getPlanetDetail(id).id
     }
 
     suspend fun getFilmTitles(urls: List<String>): List<String> {
@@ -21,10 +21,27 @@ class StarWarsRepository(private val api: ApiService) {
 
         for (url in urls) {
             val id = url.trimEnd('/').split("/").last()
-            val film = api.getFilm(id)
+            val film = api.getFilmDetail(id)
             titles.add(film.title)
         }
 
         return titles
     }
+
+    suspend fun getFilms() = api.getFilms()
+
+    suspend fun getFilmDetail(id: String) = api.getFilmDetail(id)
+
+    suspend fun getPlanets() = api.getPlanets()
+
+    suspend fun getPlanetDetail(id: String) = api.getPlanetDetail(id)
+
+    suspend fun getStarships() = api.getStarships()
+
+    suspend fun getStarshipDetail(id: String) = api.getStarshipDetail(id)
+
+    suspend fun getVehicles() = api.getVehicles()
+
+    suspend fun getVehicleDetail(id: String) = api.getVehicleDetail(id)
+
 }

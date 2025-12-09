@@ -37,7 +37,7 @@ fun CharacterDetailScreen(
             modifier = Modifier.fillMaxWidth()
         ) {
             Button(onClick = onBack) {
-                Text("←")
+                Text("<-")
             }
             Spacer(modifier = Modifier.width(12.dp))
             Text(

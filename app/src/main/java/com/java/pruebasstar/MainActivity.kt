@@ -11,15 +11,11 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.java.pruebasstar.ui.navigation.Screen
-import com.java.pruebasstar.ui.screens.HomeScreen
-import com.java.pruebasstar.ui.screens.LoginScreen
-import com.java.pruebasstar.ui.screens.CharactersScreen
 import com.java.pruebasstar.data.remote.ApiClient
 import com.java.pruebasstar.data.repository.StarWarsRepository
-import com.java.pruebasstar.ui.screens.CharacterDetailScreen
-import com.java.pruebasstar.ui.viewmodel.CharacterDetailViewModel
-import com.java.pruebasstar.ui.viewmodel.CharacterViewModel
+import com.java.pruebasstar.ui.navigation.Screen
+import com.java.pruebasstar.ui.screens.*
+import com.java.pruebasstar.ui.viewmodel.*
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +26,6 @@ class MainActivity : ComponentActivity() {
 
                 val navController = rememberNavController()
 
-                // ⭐ AQUÍ VA EL NAVHOST COMPLETO
                 NavHost(
                     navController = navController,
                     startDestination = Screen.Login.route
@@ -52,13 +47,16 @@ class MainActivity : ComponentActivity() {
                             name = name,
                             side = side,
                             onPersonajes = { navController.navigate(Screen.Characters.route) },
-                            onPeliculas = { navController.navigate("peliculas") },
-                            onPlanetas = { navController.navigate("planetas") },
-                            onNaves = { navController.navigate("naves") }
+                            onPeliculas = { navController.navigate(Screen.Films.route) },
+                            onPlanetas = { navController.navigate(Screen.Planets.route) },
+                            onNaves = { navController.navigate(Screen.Starships.route) },
+                            onVehiculos = { navController.navigate(Screen.Vehicles.route) }
                         )
                     }
 
-                    // LISTA DE PERSONAJES
+                    // -----------------------------
+                    // 🔹 LISTA DE PERSONAJES
+                    // -----------------------------
                     composable(Screen.Characters.route) {
 
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -75,8 +73,11 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // DETALLE DEL PERSONAJE  ⭐ **CORRECTO AHORA**
+                    // -----------------------------
+                    // 🔹 DETALLE DE PERSONAJE
+                    // -----------------------------
                     composable(Screen.CharacterDetail.route) { backStackEntry ->
+
                         val id = backStackEntry.arguments?.getString("id") ?: "1"
 
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -94,6 +95,149 @@ class MainActivity : ComponentActivity() {
                             onBack = { navController.popBackStack() }
                         )
                     }
+
+                    // -----------------------------
+                    // 🔹 LISTA DE PELÍCULAS
+                    // -----------------------------
+                    composable(Screen.Films.route) {
+
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+
+                        val vm: FilmsViewModel = viewModel(
+                            factory = FilmsViewModel.Factory(repo)
+                        )
+
+                        FilmsScreen(
+                            viewModel = vm,
+                            onFilmClick = { id ->
+                                navController.navigate(Screen.FilmDetail.createRoute(id))
+                            }
+                        )
+                    }
+
+                    // -----------------------------
+                    // 🔹 DETALLE DE PELÍCULA
+                    // -----------------------------
+                    composable(Screen.FilmDetail.route) { backStackEntry ->
+
+                        val id = backStackEntry.arguments?.getString("id") ?: "1"
+
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+
+                        val vm: FilmDetailViewModel = viewModel(
+                            factory = FilmDetailViewModel.Factory(repo)
+                        )
+
+                        LaunchedEffect(id) {
+                            vm.loadFilmDetail(id)
+                        }
+
+                        FilmDetailScreen(
+                            viewModel = vm,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    // LISTA DE PLANETAS
+                    // -----------------------------
+// 🔹 LISTA DE PLANETAS
+// -----------------------------
+                    composable(Screen.Planets.route) {
+
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: PlanetsViewModel = viewModel(
+                            factory = PlanetsViewModel.Factory(repo)
+                        )
+
+                        PlanetsScreen(
+                            viewModel = vm,
+                            onPlanetClick = { id ->
+                                navController.navigate(Screen.PlanetDetail.createRoute(id))
+                            }
+                        )
+                    }
+
+// DETALLE PLANETA
+                    composable(Screen.PlanetDetail.route) { backStackEntry ->
+
+                        val id = backStackEntry.arguments?.getString("id") ?: "1"
+
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: PlanetDetailViewModel = viewModel(
+                            factory = PlanetDetailViewModel.Factory(repo)
+                        )
+
+                        LaunchedEffect(id) {
+                            vm.loadPlanetDetail(id)
+                        }
+
+                        PlanetDetailScreen(
+                            viewModel = vm,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+                    composable(Screen.Starships.route) {
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: StarshipsViewModel =
+                            viewModel(factory = StarshipsViewModel.Factory(repo))
+
+                        StarshipsScreen(
+                            viewModel = vm,
+                            onClick = { id ->
+                                navController.navigate(
+                                    Screen.StarshipDetail.createRoute(
+                                        id
+                                    )
+                                )
+                            }
+                        )
+                    }
+                    composable(Screen.StarshipDetail.route) { backStackEntry ->
+                        val id = backStackEntry.arguments?.getString("id") ?: "1"
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: StarshipDetailViewModel =
+                            viewModel(factory = StarshipDetailViewModel.Factory(repo))
+
+                        LaunchedEffect(id) { vm.loadStarshipDetail(id) }
+
+                        StarshipDetailScreen(
+                            viewModel = vm,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+
+                    composable(Screen.Vehicles.route) {
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: VehiclesViewModel =
+                            viewModel(factory = VehiclesViewModel.Factory(repo))
+
+                        VehiclesScreen(
+                            viewModel = vm,
+                            onClick = { id ->
+                                navController.navigate(
+                                    Screen.VehicleDetail.createRoute(
+                                        id
+                                    )
+                                )
+                            }
+                        )
+                    }
+
+                    composable(Screen.VehicleDetail.route) { backStackEntry ->
+                        val id = backStackEntry.arguments?.getString("id") ?: "1"
+                        val repo = remember { StarWarsRepository(ApiClient.apiService) }
+                        val vm: VehicleDetailViewModel =
+                            viewModel(factory = VehicleDetailViewModel.Factory(repo))
+
+                        LaunchedEffect(id) { vm.loadVehicleDetail(id) }
+
+                        VehicleDetailScreen(
+                            viewModel = vm,
+                            onBack = { navController.popBackStack() }
+                        )
+                    }
+
+
                 }
             }
         }

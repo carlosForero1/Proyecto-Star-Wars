@@ -19,7 +19,8 @@ fun HomeScreen(
     onPersonajes: () -> Unit,
     onPeliculas: () -> Unit,
     onPlanetas: () -> Unit,
-    onNaves: () -> Unit
+    onNaves: () -> Unit,
+    onVehiculos: () -> Unit
 ) {
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
 
@@ -66,10 +67,18 @@ fun HomeScreen(
                 )
 
                 NavigationDrawerItem(
-                    label = { Text("Naves / Vehículos") },
+                    label = { Text("Naves") },
                     selected = false,
                     onClick = {
                         onNaves()
+                        scope.launch { drawerState.close() }
+                    }
+                )
+                NavigationDrawerItem(
+                    label = { Text("Vehículos") },
+                    selected = false,
+                    onClick = {
+                        onVehiculos()
                         scope.launch { drawerState.close() }
                     }
                 )
