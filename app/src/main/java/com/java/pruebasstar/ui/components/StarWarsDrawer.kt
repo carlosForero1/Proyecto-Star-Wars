@@ -60,8 +60,8 @@ fun StarWarsDrawer(
                             .background(Color(0x928d8d))
                     ) {
                         val overlayColor =
-                            if (side == "Jedi") Color.Black   // Negro fuerte con 66% opacidad
-                            else Color(0xAAFF0000)                  // Rojo vivo con 66% opacidad
+                            if (side == "Jedi") Color.Black
+                            else Color(0xAAFF0000)
                         Text(
                             text = "MENÚ STAR WARS",
                             color = Color.White,

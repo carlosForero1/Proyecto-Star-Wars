@@ -32,8 +32,6 @@ fun CharactersScreen(
 
 
     Box(modifier = Modifier.fillMaxSize()) {
-
-        // ⭐ Imagen de fondo
         Image(
             painter = painterResource(id = backgroundImage),
             contentDescription = null,
@@ -41,14 +39,12 @@ fun CharactersScreen(
             contentScale = ContentScale.Crop
         )
 
-        // ⭐ Capa de color semitransparente encima del fondo
         Box(
             modifier = Modifier
                 .fillMaxSize()
                 .background(Color.Black)
         )
 
-        // ⭐ CONTENIDO PRINCIPAL
         Column(
             modifier = Modifier
                 .fillMaxSize()
@@ -57,7 +53,6 @@ fun CharactersScreen(
 
             Spacer(modifier = Modifier.height(10.dp))
 
-            // Título
             Text(
                 "PERSONAJES DE STAR WARS",
                 style = MaterialTheme.typography.headlineSmall,
@@ -66,16 +61,15 @@ fun CharactersScreen(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            // Barra de búsqueda
             OutlinedTextField(
                 value = state.searchQuery,
                 onValueChange = { viewModel.onSearchChange(it) },
-                placeholder = { Text("Buscar personaje...", color = Color.LightGray) },
+                placeholder = { Text("Buscar personaje...", color = Color.White) },
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 modifier = Modifier.fillMaxWidth(),
                 colors = OutlinedTextFieldDefaults.colors(
                     focusedBorderColor = Color.White,
-                    unfocusedBorderColor = Color.LightGray,
+                    unfocusedBorderColor = Color.White,
                     cursorColor = Color.White
                 )
             )
@@ -95,7 +89,6 @@ fun CharactersScreen(
                 }
 
                 else -> {
-                    // ⭐ LISTA EN TARJETAS
                     LazyColumn {
                         items(viewModel.filteredCharacters()) { character ->
 

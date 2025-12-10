@@ -23,11 +23,10 @@ fun CharacterDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0A0A0A))   // Fondo oscuro estilo SW
+            .background(Color(0xFF0A0A0A))
             .padding(20.dp)
     ) {
 
-        // --- HEADER ---
         Row(
             verticalAlignment = Alignment.CenterVertically,
             modifier = Modifier.fillMaxWidth()
@@ -70,7 +69,6 @@ fun CharacterDetailScreen(
             }
 
             else -> {
-                // --- FICHA DEL PERSONAJE ---
                 DetailItem("Nombre", state.name)
                 DetailItem("Altura", state.height)
                 DetailItem("Peso", state.mass)

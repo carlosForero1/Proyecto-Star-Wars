@@ -19,11 +19,10 @@ fun VehicleDetailScreen(
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(Color(0xFF0A0A0A))   // Fondo oscuro
+            .background(Color(0xFF0A0A0A))
             .padding(16.dp)
     ) {
 
-        // Botón volver
         OutlinedButton(
             onClick = onBack,
             colors = ButtonDefaults.outlinedButtonColors(
@@ -51,7 +50,6 @@ fun VehicleDetailScreen(
             state.vehicle != null -> {
                 val v = state.vehicle
 
-                // Título del vehículo
                 Text(
                     v.name,
                     style = MaterialTheme.typography.headlineMedium,

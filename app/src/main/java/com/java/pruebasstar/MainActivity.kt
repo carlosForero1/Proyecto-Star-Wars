@@ -25,9 +25,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 🎵 Iniciar música
         mediaPlayer = MediaPlayer.create(this, R.raw.intro).apply {
-            isLooping = true     // 🔁 Repetir canción infinitamente
+            isLooping = true
             start()
         }
 
@@ -40,10 +39,6 @@ class MainActivity : ComponentActivity() {
                     navController = navController,
                     startDestination = Screen.Login.route
                 ) {
-
-                    // -------------------------
-                    // LOGIN
-                    // -------------------------
                     composable(Screen.Login.route) {
                         LoginScreen { name, side ->
                             navController.navigate(Screen.Home.createRoute(name, side))
@@ -66,9 +61,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PERSONAJES LISTA
-                    // -------------------------
                     composable(Screen.Characters.route) {
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
                         val vm: CharacterViewModel =
@@ -82,9 +74,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PERSONAJE DETALLE
-                    // -------------------------
                     composable(Screen.CharacterDetail.route) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id") ?: "1"
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -99,9 +88,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PELÍCULAS LISTA
-                    // -------------------------
                     composable(Screen.Films.route) {
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
                         val vm: FilmsViewModel = viewModel(factory = FilmsViewModel.Factory(repo))
@@ -114,9 +100,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PELÍCULA DETALLE
-                    // -------------------------
+
                     composable(Screen.FilmDetail.route) { backStackEntry ->
                         val id = backStackEntry.arguments?.getString("id") ?: "1"
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -131,9 +115,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PLANETAS LISTA
-                    // -------------------------
+
                     composable(Screen.Planets.route) {
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
                         val vm: PlanetsViewModel =
@@ -147,9 +129,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // PLANETA DETALLE
-                    // -------------------------
                     composable(Screen.PlanetDetail.route) { bse ->
                         val id = bse.arguments?.getString("id") ?: "1"
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -164,9 +143,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // NAVES / STARSHIPS
-                    // -------------------------
                     composable(Screen.Starships.route) {
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
                         val vm: StarshipsViewModel =
@@ -194,9 +170,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // VEHÍCULOS LISTA
-                    // -------------------------
                     composable(Screen.Vehicles.route) {
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
                         val vm: VehiclesViewModel =
@@ -210,9 +183,6 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    // -------------------------
-                    // VEHÍCULO DETALLE
-                    // -------------------------
                     composable(Screen.VehicleDetail.route) { bse ->
                         val id = bse.arguments?.getString("id") ?: "1"
                         val repo = remember { StarWarsRepository(ApiClient.apiService) }
@@ -233,6 +203,6 @@ class MainActivity : ComponentActivity() {
 
     override fun onDestroy() {
         super.onDestroy()
-        mediaPlayer.release() // 🧹 liberar memoria
+        mediaPlayer.release()
     }
 }
